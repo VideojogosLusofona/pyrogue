@@ -41,4 +41,4 @@ The text and all the other files are made available through the
 [CC BY-NC-SA 4.0]:https://creativecommons.org/licenses/by-nc-sa/4.0/
 [ULHT]:https://www.ulusofona.pt/
 [lv]:https://www.ulusofona.pt/licenciatura/videojogos
-[Map loading, movement and camera]:https://github.com/VideojogosLusofona/pyrogue/tree/89fa85127e0fa2ff235dfe7d39d26daa6f0bc67b
+[Map loading, movement and camera]:https://github.com/VideojogosLusofona/pyrogue/tree/3161309040fe1ea4e7cc2caf87d531223e8ae242
