@@ -20,7 +20,7 @@ class GameData:
     def init_assets(self):
         self.player_img = pygame.image.load("images/player.png")
 
-    def set_player_pos(self, x, y):
+    def set_player_pos(self, c, x, y):
         self.player_pos = (x, y)
 
     def center_camera(self, pos):

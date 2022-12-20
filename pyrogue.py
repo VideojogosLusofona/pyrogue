@@ -3,20 +3,20 @@ from maptile import *
 from map import *
 from gamedata import *
 
-def set_player_pos(c, x, y):
-    GAMEDATA.set_player_pos(x, y)
-
 def main():
     GAMEDATA.init_pygame()
     GAMEDATA.init_assets()
 
-    wall_tile = MapTyle(pygame.image.load("images/wall.png"), True)
-    grass_tile = MapTyle(pygame.image.load("images/grass.png"), False)
+    wall_tile = MapTyle("images/wall.png", True)
+    grass_tile = MapTyle("images/grass.png", False)
+    empty_tile = MapTyle(None, False)
 
     tileset_outdoors = {
         '#' : { "tile" : wall_tile },
         '.' : { "tile" : grass_tile },
-        '@' : { "tile" : grass_tile, "func" : set_player_pos }
+        '@' : { "tile" : grass_tile, "func" : GAMEDATA.set_player_pos },
+        ' ' : { "tile" : empty_tile },
+        'default' : { "tile" : empty_tile }
     }
 
     GAMEDATA.load_map("maps/test.map", tileset_outdoors)

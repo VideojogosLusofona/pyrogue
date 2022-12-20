@@ -17,10 +17,16 @@ class Map:
         for line in file:
             row = []
             x = 0
-            for c in line.strip():
-                if (c not in tileset):
-                    print(f"Unknown tile {c}!")
-                else:
+            for c in line:
+                if ((c == '\n') or (c == '\r')):
+                    c = None
+                elif (c not in tileset):
+                    if ("default" in tileset):
+                        c = "default"
+                    else:
+                        print(f"Unknown tile {c}!")
+                        c = None
+                if (c != None):
                     t = tileset[c]
                     row.append(t["tile"])
 
@@ -49,7 +55,8 @@ class Map:
             py = screen_pos[1] + (y - offset[1]) * self.tile_size[1]
             for x in range(offset[0], min(min(len(map_row), self.sx), offset[0] + msx)):
                 px = screen_pos[0] + (x - offset[0]) * self.tile_size[0]
-                screen.blit(map_row[x].image, (px,py))
+                if (map_row[x].image != None):
+                    screen.blit(map_row[x].image, (px,py))
 
 
 
