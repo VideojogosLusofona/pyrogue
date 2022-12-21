@@ -30,7 +30,7 @@ The particle system was built using:
 * maptile.py: Implements the MapTile class, which acts like a prototype of an individual tile. There's only one instance of each map tile (for example, even if the map has 1000 grass tiles, they only point to a single MapTile object)
 ---
 ## Art
-Wall, tree and player character by [Angel] (made available through [CC0 License])
+Wall, tree and player character by [Angel] (made available through the [CC0 License])
 
 ---
 ## Licenses
@@ -46,6 +46,7 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [Diogo Andrade]:https://github.com/DiogoDeAndrade
 [Apache License 2.0]:LICENSE
 [CC BY-NC-SA 4.0]:https://creativecommons.org/licenses/by-nc-sa/4.0/
+[CC0 License]:https://creativecommons.org/publicdomain/zero/1.0/
 [ULHT]:https://www.ulusofona.pt/
 [lv]:https://www.ulusofona.pt/licenciatura/videojogos
 [Map loading, movement and camera]:https://github.com/VideojogosLusofona/pyrogue/tree/3161309040fe1ea4e7cc2caf87d531223e8ae242
