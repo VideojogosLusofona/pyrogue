@@ -9,10 +9,12 @@ def main():
 
     wall_tile = MapTyle("images/wall.png", True)
     grass_tile = MapTyle("images/grass.png", False)
+    tree_tile = MapTyle("images/tree.png", True)
     empty_tile = MapTyle(None, False)
 
     tileset_outdoors = {
         '#' : { "tile" : wall_tile },
+        'T' : { "tile" : tree_tile },
         '.' : { "tile" : grass_tile },
         '@' : { "tile" : grass_tile, "func" : GAMEDATA.set_player_pos },
         ' ' : { "tile" : empty_tile },
