@@ -31,7 +31,10 @@ class Map:
                     row.append(t["tile"])
 
                     if ("func" in t):
-                        t["func"](c, x , self.sy)
+                        p = None
+                        if ("func_param" in t):
+                            p = t["func_param"]
+                        t["func"](c, x , self.sy, p)
 
                     x += 1
 
@@ -43,9 +46,9 @@ class Map:
 
         return True
 
-    def is_wall(self, x, y):
-        return self.map[y][x].solid
-
+    def get_tile(self, x, y):
+        return self.map[y][x]
+        
     def draw(self, screen_pos, screen_size, offset, screen):
         msx = math.ceil(screen_size[0] / self.tile_size[0])
         msy = math.ceil(screen_size[1] / self.tile_size[1])

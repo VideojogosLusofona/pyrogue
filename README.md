@@ -20,6 +20,17 @@ The particle system was built using:
 
 ![Image](progress/screen02.png)
 
+[Stats, enemies and attacks]
+
+![Image](progress/screen03.png)
+
+* Character archetypes and stats
+* UI elements
+* Health, stamina and XP system
+* Enemy spawning
+* Player melee attack
+* Combat text
+
 ---
 
 ## Code Files
@@ -28,9 +39,15 @@ The particle system was built using:
 * gamedata.py: Implements the GameData class, and creates the GAMEDATA singleton, through which most of the gamecode runs
 * map.py: Implements the Map class, which takes care of the map, including rendering
 * maptile.py: Implements the MapTile class, which acts like a prototype of an individual tile. There's only one instance of each map tile (for example, even if the map has 1000 grass tiles, they only point to a single MapTile object)
+* character.py: Main character class, used for both the player and enemies. It's responsible for rendering and updating the entity, including moving and attacking
+* archetype.py: Implements the Archetype class, which represents a player/enemy class, along with stats and other required assets for displaying
+* archetypes.py: This is where the actual definition of the archetypes of the game is done
+* combattext.py: Implements the combat text class, which tracks the data needed to display and animate the combat text of the game.
+* utilities.py: A series of functions to help with the game. Currently, it only has functions to center text at a certain position and to render a progress bar.
+
 ---
 ## Art
-Wall, tree and player character by [Angel] (made available through the [CC0 License])
+Wall, tree, player character and blob enemy by [Angel] (made available through the [CC0 License])
 
 ---
 ## Licenses
