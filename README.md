@@ -68,4 +68,5 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [lv]:https://www.ulusofona.pt/licenciatura/videojogos
 [Map loading, movement and camera]:https://github.com/VideojogosLusofona/pyrogue/tree/3161309040fe1ea4e7cc2caf87d531223e8ae242
 [Added sprites]:https://github.com/VideojogosLusofona/pyrogue/tree/7d84785296c63312d5a9f936b2a059ed40b53cf8
+[Stats, enemies and attacks]:https://github.com/VideojogosLusofona/pyrogue/tree/d64d6d125ffc54a4af1d3e8fa86b1dd2384f0827
 [Angel]:https://opengameart.org/users/angel
