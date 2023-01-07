@@ -48,6 +48,12 @@ The particle system was built using:
 
 * Added a Vector2 class to make the code a bit cleaner/easier to read
 
+---
+
+[Improved AI system]
+
+* Improved AI with wander and chase behaviour - the absence of pathfinding still causes some issues, but it works nicely enough for now
+
 
 ## Code Files
 
@@ -87,4 +93,5 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [Stats, enemies and attacks]:https://github.com/VideojogosLusofona/pyrogue/tree/d64d6d125ffc54a4af1d3e8fa86b1dd2384f0827
 [Introduce Vector2 class]:https://github.com/VideojogosLusofona/pyrogue/tree/df67cf174643ec7200b970c22d365ea7d2b2443b
 [Simple AI introduced]:https://github.com/VideojogosLusofona/pyrogue/tree/93e39a6564b405ae7a537e8be6fcbeebe43266ac
+[Improved AI system]:https://github.com/VideojogosLusofona/pyrogue/tree/48aa2f7c7d1c01556a355aff0eecfc9e315f9b3c
 [Angel]:https://opengameart.org/users/angel
