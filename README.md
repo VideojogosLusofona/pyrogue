@@ -37,6 +37,13 @@ The particle system was built using:
 
 ---
 
+[Simple AI introduced]
+
+* Code adapted to be more similar to the code done in class
+* AI chase code as done in class (simple controller model)
+
+---
+
 [Introduce Vector2 class]
 
 * Added a Vector2 class to make the code a bit cleaner/easier to read
@@ -79,4 +86,5 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [Added sprites]:https://github.com/VideojogosLusofona/pyrogue/tree/7d84785296c63312d5a9f936b2a059ed40b53cf8
 [Stats, enemies and attacks]:https://github.com/VideojogosLusofona/pyrogue/tree/d64d6d125ffc54a4af1d3e8fa86b1dd2384f0827
 [Introduce Vector2 class]:https://github.com/VideojogosLusofona/pyrogue/tree/df67cf174643ec7200b970c22d365ea7d2b2443b
+[Simple AI introduced]:https://github.com/VideojogosLusofona/pyrogue/tree/93e39a6564b405ae7a537e8be6fcbeebe43266ac
 [Angel]:https://opengameart.org/users/angel

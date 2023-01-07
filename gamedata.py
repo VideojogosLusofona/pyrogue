@@ -5,7 +5,6 @@ import math
 from map import *
 from character import *
 from combattext import *
-from controllers import *
 from vector2 import * 
 
 class GameData:
@@ -45,12 +44,12 @@ class GameData:
 
     def spawn_player(self, c, x, y, param):
         self.player = Character(self.player_archetype, self.player_level, Vector2(x, y), 0, self)
-        self.player.controller = KeyboardController(self.player)
+        #self.player.controller = KeyboardController(self.player)
         self.characters.append(self.player)
 
     def spawn_enemy(self, c, x, y, param):
         enemy = Character(param[0], param[1], Vector2(x, y), 1, self)
-        enemy.controller = AIController(enemy)
+        #enemy.controller = AIController(enemy)
         self.characters.append(enemy)
 
     def get_enemy_in_position(self, pos, faction):

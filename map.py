@@ -53,10 +53,10 @@ class Map:
         msx = math.ceil(screen_size.x / self.tile_size.x)
         msy = math.ceil(screen_size.y / self.tile_size.y)
 
-        for y in range(offset.y, min(self.size.y, offset.y + msy)):
+        for y in range(int(offset.y), min(self.size.y, int(offset.y) + msy)):
             map_row = self.map[y]
             py = screen_pos.y + (y - offset.y) * self.tile_size.y
-            for x in range(offset.x, min(min(len(map_row), self.size.x), offset.x + msx)):
+            for x in range(int(offset.x), min(min(len(map_row), self.size.x), int(offset.x) + msx)):
                 px = screen_pos.x + (x - offset.x) * self.tile_size.x
                 if (map_row[x].image != None):
                     screen.blit(map_row[x].image, (px,py))

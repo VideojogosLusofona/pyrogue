@@ -1,7 +1,7 @@
 import pygame
 
 class Archetype:
-    def __init__(self, display_name, filename = "None", text_color = (240, 0, 0), max_health_base = 100, max_health_per_level = 0, max_mp_base = 0, max_mp_per_level = 0, max_stamina_base = 100, max_stamina_per_level = 0,
+    def __init__(self, display_name, controller = None, filename = "None", text_color = (240, 0, 0), max_health_base = 100, max_health_per_level = 0, max_mp_base = 0, max_mp_per_level = 0, max_stamina_base = 100, max_stamina_per_level = 0,
                  stamina_recover_base = 0, stamina_recover_per_level = 0, attack_power_base = 10, attack_power_per_level = 0, defense_power_base = 0, defense_power_per_level = 0,
                  melee_stamina_cost_base = 0, melee_stamina_cost_per_level = 0, has_xp = False):
         if (filename != None):
@@ -14,6 +14,7 @@ class Archetype:
         else:
             self.image = None
 
+        self.controller = controller
         self.display_name = display_name
         self.text_color = text_color
         self.max_health_base = max_health_base

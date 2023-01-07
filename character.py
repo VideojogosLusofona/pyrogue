@@ -8,7 +8,6 @@ from vector2 import *
 class Character:
     def __init__(self, archetype, level, position, faction, gamedata):
         self.archetype = archetype
-        self.controller = None
         self.position = position
         self.level = level
         self.health = archetype.get_max_health(self.level)
@@ -18,6 +17,15 @@ class Character:
         self.render_flipx = False
         self.gamedata = gamedata
         self.faction = faction
+
+        if (self.archetype.controller != None):
+            if (isinstance(self.archetype.controller, tuple)):
+                params = (self,) + self.archetype.controller[1:]
+                self.controller = self.archetype.controller[0].Create(*params)
+            else:
+                self.controller = self.archetype.controller.Create(self)
+        else:
+            self.controller = None
 
     def render(self):
         p = self.gamedata.map_pos + self.gamedata.tile_size * (self.position - self.gamedata.camera_pos)
@@ -108,7 +116,7 @@ class Character:
             self.mp = self.archetype.get_max_mp(self.level)
             self.stamina = self.archetype.get_max_stamina(self.level)
 
-    def move(self, delta_x, delta_y):
+    def move(self, delta_x, delta_y, can_attack = True):
         # Check if it is alive
         if (self.health <= 0):
             return False
@@ -134,7 +142,7 @@ class Character:
         enemy = self.gamedata.get_character_in_position(np)
         if (enemy != None):
             # Check if it is hostile
-            if not self.gamedata.is_hostile(self.faction, enemy):
+            if (not self.gamedata.is_hostile(self.faction, enemy.faction)) or (not can_attack):
                 # Can't move, position is occupied
                 return False
 
@@ -181,3 +189,9 @@ class Character:
             return True
 
         return False
+
+    def is_alive(self):
+        return self.health > 0
+
+    def is_dead(self):
+        return self.health <= 0
