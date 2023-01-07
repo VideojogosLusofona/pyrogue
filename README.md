@@ -37,6 +37,11 @@ The particle system was built using:
 
 ---
 
+[Introduce Vector2 class]
+
+* Added a Vector2 class to make the code a bit cleaner/easier to read
+
+
 ## Code Files
 
 * pyrogue.py: Entrypoint for the code. Creates tiles, does the main application loop, retrieves input and calls the rendering code
@@ -73,4 +78,5 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [Map loading, movement and camera]:https://github.com/VideojogosLusofona/pyrogue/tree/3161309040fe1ea4e7cc2caf87d531223e8ae242
 [Added sprites]:https://github.com/VideojogosLusofona/pyrogue/tree/7d84785296c63312d5a9f936b2a059ed40b53cf8
 [Stats, enemies and attacks]:https://github.com/VideojogosLusofona/pyrogue/tree/d64d6d125ffc54a4af1d3e8fa86b1dd2384f0827
+[Introduce Vector2 class]:https://github.com/VideojogosLusofona/pyrogue/tree/df67cf174643ec7200b970c22d365ea7d2b2443b
 [Angel]:https://opengameart.org/users/angel
