@@ -13,6 +13,7 @@ class GameData:
     map_pos = Vector2(0, 0)
     map_size = Vector2(28 * 32, 22 * 32)
     characters = []
+    projectiles = []
     images = {}
     game_over = False
     tracked_character = None
@@ -60,6 +61,13 @@ class GameData:
         
         return None
 
+    def get_projectile_at_position(self, pos):
+        for p in self.projectiles:
+            if (p.position == pos) and (p.duration > 0):
+                return p
+        
+        return None
+
     def get_character_in_position(self, pos):
         for character in self.characters:
             if (character.position == pos) and (character.health > 0):
@@ -92,7 +100,7 @@ class GameData:
 
         camera_pos = pos - ts/2
         if (camera_pos.x + ts.x >= self.map_data.size.x):
-            camera_pos.y = self.map_data.size.x - ts.x
+            camera_pos.x = self.map_data.size.x - ts.x
         if (camera_pos.y + ts.y >= self.map_data.size.y):
             camera_pos.y = self.map_data.size.y - ts.y
         if (camera_pos.x < 0):
@@ -105,6 +113,7 @@ class GameData:
     def render(self):
         self.render_map()
         self.render_characters()
+        self.render_projectiles()
         self.render_stats()
 
         for ct in self.combat_text:
@@ -119,6 +128,10 @@ class GameData:
     def render_characters(self):
         for character in self.characters:
             character.render()
+
+    def render_projectiles(self):
+        for p in self.projectiles:
+            p.render()
 
     def render_stats(self):
         mx = self.map_pos.x + self.map_size.x
@@ -140,14 +153,21 @@ class GameData:
 
     def render_player_actions(self, y):
         # Write player actions (instructions)
-        self.font.render_to(self.screen, (self.map_pos.x + self.map_size.x + 10, y), "(R): Rest", (150, 150, 150), None, pygame.freetype.STYLE_DEFAULT, 0, 20)
+        return self.player.render_actions(Vector2(self.map_pos.x + self.map_size.x + 10, y))
 
-        return y + 25
-
-    def update_characters(self):
+    def tick(self):
         for character in self.characters:
-            if (character.health >= 0):
+            if (character.health > 0):
                 character.update()
+
+        for projectile in self.projectiles:
+            projectile.tick()
+
+        self.projectiles = [p for p in self.projectiles if p.duration > 0]
+
+        for character in self.characters:
+            if (character.health > 0):
+                character.upkeep()
 
         if (self.player.health <= 0):
             self.game_over = True
@@ -168,6 +188,9 @@ class GameData:
             ct.update(elapsed_time)
 
         self.combat_text = [ct for ct in self.combat_text if ct.life > 0]
+
+    def add_projectile(self, projectile):
+        self.projectiles.append(projectile)
 
 
 global GAMEDATA

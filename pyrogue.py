@@ -9,7 +9,7 @@ def main():
     GAMEDATA.init_pygame()
     GAMEDATA.init_assets()
 
-    GAMEDATA.set_player_archetype(ARCHETYPES["PlayerWarrior"], 1)
+    GAMEDATA.set_player_archetype(ARCHETYPES["PlayerMage"], 3)
 
     wall_tile = MapTyle("images/wall.png", True)
     grass_tile = MapTyle("images/grass.png", False, stamina_cost = 1)
@@ -24,7 +24,7 @@ def main():
         'w' : { "tile" : water_tile },
         '@' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_player },
         'b' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : (ARCHETYPES["Blob"], 1) },
-        'B' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : (ARCHETYPES["Blob"], 5) },
+        'B' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : (ARCHETYPES["BlobBoss"], 5) },
         ' ' : { "tile" : empty_tile },
         'default' : { "tile" : empty_tile }
     }
@@ -48,7 +48,7 @@ def main():
                         player_action = ctrl.handle_keypress(event.key)
 
         if (player_action):
-            GAMEDATA.update_characters()
+            GAMEDATA.tick()
 
         GAMEDATA.center_camera(GAMEDATA.player.position)
 

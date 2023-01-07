@@ -1,9 +1,12 @@
 import pygame
 
 class Archetype:
-    def __init__(self, display_name, controller = None, filename = "None", text_color = (240, 0, 0), max_health_base = 100, max_health_per_level = 0, max_mp_base = 0, max_mp_per_level = 0, max_stamina_base = 100, max_stamina_per_level = 0,
-                 stamina_recover_base = 0, stamina_recover_per_level = 0, attack_power_base = 10, attack_power_per_level = 0, defense_power_base = 0, defense_power_per_level = 0,
-                 melee_stamina_cost_base = 0, melee_stamina_cost_per_level = 0, has_xp = False):
+    def __init__(self, display_name, controller = None, filename = "None", text_color = (240, 0, 0), 
+                 max_health_base = 100, max_health_per_level = 0, 
+                 max_mp_base = 0, max_mp_per_level = 0, mp_recover_base = 0, mp_recover_per_level = 0, 
+                 max_stamina_base = 100, max_stamina_per_level = 0, stamina_recover_base = 0, stamina_recover_per_level = 0, 
+                 attack_power_base = 10, attack_power_per_level = 0, defense_power_base = 0, defense_power_per_level = 0,
+                 melee_stamina_cost_base = 0, melee_stamina_cost_per_level = 0, has_xp = False, abilities = []):
         if (filename != None):
             self.image = pygame.image.load(filename)
             if (self.image == None):
@@ -21,6 +24,8 @@ class Archetype:
         self.max_health_per_level = max_health_per_level
         self.max_mp_base = max_mp_base
         self.max_mp_per_level = max_mp_per_level
+        self.mp_recover_base = mp_recover_base
+        self.mp_recover_per_level = mp_recover_per_level
         self.max_stamina_base = max_stamina_base
         self.max_stamina_per_level = max_stamina_per_level
         self.stamina_recover_base = stamina_recover_base
@@ -32,6 +37,7 @@ class Archetype:
         self.melee_stamina_cost_base = melee_stamina_cost_base
         self.melee_stamina_cost_per_level = melee_stamina_cost_per_level
         self.has_xp = has_xp
+        self.abilities = abilities
 
     def get_max_health(self, level):
         return self.max_health_base + self.max_health_per_level * (level - 1)
@@ -44,6 +50,9 @@ class Archetype:
 
     def get_max_xp(self, level):
         return level * 100
+
+    def get_mp_recover(self, level):
+        return self.mp_recover_base + self.mp_recover_per_level * (level - 1)
 
     def get_stamina_recover(self, level):
         return self.stamina_recover_base + self.stamina_recover_per_level * (level - 1)

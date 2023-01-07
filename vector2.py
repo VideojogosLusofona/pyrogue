@@ -23,6 +23,9 @@ class Vector2:
         if isinstance(x, tuple):
             self.x = x[0]
             self.y = x[1]
+        elif isinstance(x, Vector2):
+            self.x = x.x
+            self.y = x.y
         else:
             self.x = x
             self.y = y

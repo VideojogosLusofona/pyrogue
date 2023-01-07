@@ -52,7 +52,19 @@ The particle system was built using:
 
 [Improved AI system]
 
+![Image](progress/screen04.png)
+
 * Improved AI with wander and chase behaviour - the absence of pathfinding still causes some issues, but it works nicely enough for now
+
+---
+
+[Ability system]
+
+![Image](progress/screen05.png)
+
+* Ability system for both player and enemies
+* Full buff system
+* Projectiles
 
 
 ## Code Files
@@ -62,14 +74,20 @@ The particle system was built using:
 * map.py: Implements the Map class, which takes care of the map, including rendering
 * maptile.py: Implements the MapTile class, which acts like a prototype of an individual tile. There's only one instance of each map tile (for example, even if the map has 1000 grass tiles, they only point to a single MapTile object)
 * character.py: Main character class, used for both the player and enemies. It's responsible for rendering and updating the entity, including moving and attacking
+* controllers.py: Classes for the controller system - keyboard input and simple AI
 * archetype.py: Implements the Archetype class, which represents a player/enemy class, along with stats and other required assets for displaying
 * archetypes.py: This is where the actual definition of the archetypes of the game is done
+* ability.py: Implements the Ability class, which represents an ability that can be given to a player or enemy
+* abilities.py: This is where the actual definition of the abilities of the game is done
+* buff.py: Implements the Buff class, which represents a buff/debuff that can be given to a player or enemy
+* buffs.py: This is where the actual definition of the buffs of the game is done
+* projectile.py: This is where the Projectile class is defined, which is used to track active projectiles in the game
 * combattext.py: Implements the combat text class, which tracks the data needed to display and animate the combat text of the game.
 * utilities.py: A series of functions to help with the game. Currently, it only has functions to center text at a certain position and to render a progress bar.
 
 ---
 ## Art
-Wall, tree, player character and blob enemy by [Angel] (made available through the [CC0 License])
+Wall, tree, player characters and blob enemy by [Angel] (made available through the [CC0 License])
 
 ---
 ## Licenses
