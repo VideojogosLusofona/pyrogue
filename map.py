@@ -1,4 +1,5 @@
 import math
+from vector2 import *
 
 class Map:
     def __init__(self, tile_size):
@@ -11,8 +12,7 @@ class Map:
             return False
 
         self.map = []
-        self.sx = 0
-        self.sy = 0
+        self.size = Vector2()
         
         for line in file:
             row = []
@@ -34,30 +34,30 @@ class Map:
                         p = None
                         if ("func_param" in t):
                             p = t["func_param"]
-                        t["func"](c, x , self.sy, p)
+                        t["func"](c, x , self.size.y, p)
 
                     x += 1
 
-            self.sx = max(self.sx, len(row))
-            self.sy += 1
+            self.size.x = max(self.size.x, len(row))
+            self.size.y += 1
             self.map.append(row)
 
         file.close()
 
         return True
 
-    def get_tile(self, x, y):
-        return self.map[y][x]
+    def get_tile(self, p):
+        return self.map[int(p.y)][int(p.x)]
         
     def draw(self, screen_pos, screen_size, offset, screen):
-        msx = math.ceil(screen_size[0] / self.tile_size[0])
-        msy = math.ceil(screen_size[1] / self.tile_size[1])
+        msx = math.ceil(screen_size.x / self.tile_size.x)
+        msy = math.ceil(screen_size.y / self.tile_size.y)
 
-        for y in range(offset[1], min(self.sy, offset[1] + msy)):
+        for y in range(offset.y, min(self.size.y, offset.y + msy)):
             map_row = self.map[y]
-            py = screen_pos[1] + (y - offset[1]) * self.tile_size[1]
-            for x in range(offset[0], min(min(len(map_row), self.sx), offset[0] + msx)):
-                px = screen_pos[0] + (x - offset[0]) * self.tile_size[0]
+            py = screen_pos.y + (y - offset.y) * self.tile_size.y
+            for x in range(offset.x, min(min(len(map_row), self.size.x), offset.x + msx)):
+                px = screen_pos.x + (x - offset.x) * self.tile_size.x
                 if (map_row[x].image != None):
                     screen.blit(map_row[x].image, (px,py))
 

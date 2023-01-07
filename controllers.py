@@ -29,22 +29,22 @@ class KeyboardController(Controller):
 
 class AIController(Controller):
     def update(self):
-        enemy = self.gamedata.get_closest_enemy(self.character.position[0], self.character.position[1], self.character.faction)
+        enemy = self.gamedata.get_closest_enemy(self.character.position, self.character.faction)
         if (enemy != None):
-            delta_x = enemy.position[0] - self.character.position[0]
-            delta_y = enemy.position[1] - self.character.position[1]
-            dist = math.sqrt(delta_x**2 + delta_y**2)
+            delta = enemy.position - self.character.position
+            dist = delta.magnitude()
 
             if (dist < 5):
-                if (abs(delta_x) > abs(delta_y)):
+                if (abs(delta.x) > abs(delta.y)):
                     # Move in X
-                    delta_y = 0
+                    delta.y = 0
                 else:
                     # Move in Y
-                    delta_x = 0
+                    delta.x = 0
 
-                # Only move one step at a time
-                delta_x = min(1, max(-1, delta_x))
-                delta_y = min(1, max(-1, delta_y))
+                if (delta.is_null()):
+                    return
 
-                self.character.move(delta_x, delta_y)
+                delta.normalize()
+
+                self.character.move(delta.x, delta.y)

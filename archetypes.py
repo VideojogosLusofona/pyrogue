@@ -26,8 +26,8 @@ ARCHETYPES = {
         filename = "images/blob.png",
         max_health_base = 100,
         max_health_per_level = 5,
-        attack_power_base = 5,
-        attack_power_per_level = 5,
+        attack_power_base = 2,
+        attack_power_per_level = 2,
         defense_power_base = 0,
         defense_power_per_level = 5
         ),

@@ -3,6 +3,7 @@ import pygame.freetype
 import math
 
 from utilities import *
+from vector2 import *
 
 class Character:
     def __init__(self, archetype, level, position, faction, gamedata):
@@ -19,8 +20,7 @@ class Character:
         self.faction = faction
 
     def render(self):
-        px = self.gamedata.map_pos[0] + self.gamedata.tile_size[0] * (self.position[0] - self.gamedata.camera_pos[0])
-        py = self.gamedata.map_pos[1] + self.gamedata.tile_size[1] * (self.position[1] - self.gamedata.camera_pos[1])
+        p = self.gamedata.map_pos + self.gamedata.tile_size * (self.position - self.gamedata.camera_pos)
 
         image = self.archetype.image
         if (self.render_flipx):
@@ -28,35 +28,35 @@ class Character:
         if (self.health <= 0):
             image = self.gamedata.get_image("Blood")
 
-        self.gamedata.screen.blit(image, (px, py))
+        self.gamedata.screen.blit(image, p.to_int_tuple())
 
     def render_stats(self, stats_pos):
-        pygame.draw.rect(self.gamedata.screen, (255, 255, 255), (stats_pos[0] - 2, stats_pos[1] - 2, 132, 132), 0)
-        pygame.draw.rect(self.gamedata.screen, (40, 40, 40), (stats_pos[0] - 1, stats_pos[1] - 1, 130, 130), 0)
-        self.gamedata.screen.blit(self.archetype.stat_image, stats_pos)
+        pygame.draw.rect(self.gamedata.screen, (255, 255, 255), (stats_pos.x - 2, stats_pos.y - 2, 132, 132), 0)
+        pygame.draw.rect(self.gamedata.screen, (40, 40, 40), (stats_pos.x - 1, stats_pos.y - 1, 130, 130), 0)
+        self.gamedata.screen.blit(self.archetype.stat_image, stats_pos.to_int_tuple())
 
-        self.gamedata.font.render_to(self.gamedata.screen, (stats_pos[0] + 140, stats_pos[1]), self.archetype.display_name, self.archetype.text_color, None, pygame.freetype.STYLE_DEFAULT, 0, 36)
-        self.gamedata.font.render_to(self.gamedata.screen, (stats_pos[0] + 140, stats_pos[1] + 36), f"Level {self.level}", self.archetype.text_color, None, pygame.freetype.STYLE_DEFAULT, 0, 20)
+        self.gamedata.font.render_to(self.gamedata.screen, (stats_pos.x + 140, stats_pos.y), self.archetype.display_name, self.archetype.text_color, None, pygame.freetype.STYLE_DEFAULT, 0, 36)
+        self.gamedata.font.render_to(self.gamedata.screen, (stats_pos.x + 140, stats_pos.y + 36), f"Level {self.level}", self.archetype.text_color, None, pygame.freetype.STYLE_DEFAULT, 0, 20)
 
-        y = stats_pos[1] + 140
+        y = stats_pos.y + 140
 
-        center_text_y(self.gamedata.screen, (stats_pos[0], y + 12), self.gamedata.font, "HP:", (255, 255, 255), 20)
-        render_progress_bar(self.gamedata.screen, (stats_pos[0] + 40, y), (240, 24), (255, 255, 255), (50, 50, 50), (0, 200, 0), self.gamedata.font, (0, 0, 0), 2, self.health, self.archetype.get_max_health(self.level), "")
+        center_text_y(self.gamedata.screen, Vector2(stats_pos.x, y + 12), self.gamedata.font, "HP:", (255, 255, 255), 20)
+        render_progress_bar(self.gamedata.screen, Vector2(stats_pos.x + 40, y), Vector2(240, 24), (255, 255, 255), (50, 50, 50), (0, 200, 0), self.gamedata.font, (0, 0, 0), 2, self.health, self.archetype.get_max_health(self.level), "")
         y = y + 30
 
         if (self.archetype.get_max_mp(self.level) > 0):
-            center_text_y(self.gamedata.screen, (stats_pos[0], y + 12), self.gamedata.font, "MP:", (255, 255, 255), 20)
-            render_progress_bar(self.gamedata.screen, (stats_pos[0] + 40, y), (240, 24), (255, 255, 255), (50, 50, 50), (0, 200, 200), self.gamedata.font, (0, 0, 0), 2, self.mp, self.archetype.get_max_mp(self.level), "")
+            center_text_y(self.gamedata.screen, Vector2(stats_pos.x, y + 12), self.gamedata.font, "MP:", (255, 255, 255), 20)
+            render_progress_bar(self.gamedata.screen, Vector2(stats_pos.x + 40, y), Vector2(240, 24), (255, 255, 255), (50, 50, 50), (0, 200, 200), self.gamedata.font, (0, 0, 0), 2, self.mp, self.archetype.get_max_mp(self.level), "")
             y = y + 30
 
         if (self.archetype.get_max_stamina(self.level) > 0):
-            center_text_y(self.gamedata.screen, (stats_pos[0], y + 12), self.gamedata.font, "ST:", (255, 255, 255), 20)
-            render_progress_bar(self.gamedata.screen, (stats_pos[0] + 40, y), (240, 24), (255, 255, 255), (50, 50, 50), (200, 200, 0), self.gamedata.font, (0, 0, 0), 2, self.stamina, self.archetype.get_max_stamina(self.level), "")
+            center_text_y(self.gamedata.screen, Vector2(stats_pos.x, y + 12), self.gamedata.font, "ST:", (255, 255, 255), 20)
+            render_progress_bar(self.gamedata.screen, Vector2(stats_pos.x + 40, y), Vector2(240, 24), (255, 255, 255), (50, 50, 50), (200, 200, 0), self.gamedata.font, (0, 0, 0), 2, self.stamina, self.archetype.get_max_stamina(self.level), "")
             y = y + 30
 
         if (self.archetype.has_xp):
-            center_text_y(self.gamedata.screen, (stats_pos[0], y + 12), self.gamedata.font, "XP:", (255, 255, 255), 20)
-            render_progress_bar(self.gamedata.screen, (stats_pos[0] + 40, y), (240, 24), (255, 255, 255), (50, 50, 50), (200, 200, 200), self.gamedata.font, (0, 0, 0), 2, self.xp, self.archetype.get_max_xp(self.level), "")
+            center_text_y(self.gamedata.screen, Vector2(stats_pos.x, y + 12), self.gamedata.font, "XP:", (255, 255, 255), 20)
+            render_progress_bar(self.gamedata.screen, Vector2(stats_pos.x + 40, y), Vector2(240, 24), (255, 255, 255), (50, 50, 50), (200, 200, 200), self.gamedata.font, (0, 0, 0), 2, self.xp, self.archetype.get_max_xp(self.level), "")
             y = y + 30
             
         return y
@@ -72,7 +72,7 @@ class Character:
 
         # Check if player runs out of stamina in a place where he needs stamina - like drowning
         if (self.stamina > 0):
-            tile = self.gamedata.map_data.get_tile(self.player.position[0], self.player.position[1])
+            tile = self.gamedata.map_data.get_tile(self.player.position.x, self.player.position.y)
             if (tile.need_stamina):
                 # Player takes damage
                 self.player.modify_health(-10)
@@ -114,7 +114,7 @@ class Character:
             return False
 
         # If the character needs stamina (max_stamina > 0), check if we have enough stamina to move
-        tile = self.gamedata.map_data.get_tile(self.position[0], self.position[1])
+        tile = self.gamedata.map_data.get_tile(self.position)
         if (self.archetype.get_max_stamina(self.level) > 0):
             cost = tile.stamina_cost
             if (self.stamina < cost):
@@ -127,12 +127,11 @@ class Character:
         elif (delta_x > 0):
             self.render_flipx = False
 
-        npx = self.position[0] + delta_x
-        npy = self.position[1] + delta_y
+        np = self.position + Vector2(delta_x, delta_y)
 
         # Check if there is an enemy in the new position, if there is
         # do a melee attack, otherwise move
-        enemy = self.gamedata.get_character_in_position(npx, npy)
+        enemy = self.gamedata.get_character_in_position(np)
         if (enemy != None):
             # Check if it is hostile
             if not self.gamedata.is_hostile(self.faction, enemy):
@@ -175,10 +174,10 @@ class Character:
 
             return True
 
-        next_tile = self.gamedata.map_data.get_tile(npx, npy)
+        next_tile = self.gamedata.map_data.get_tile(np)
         if (not next_tile.solid):
             self.stamina = self.stamina - cost
-            self.position = (npx, npy)
+            self.position = np
             return True
 
         return False
