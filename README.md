@@ -16,9 +16,13 @@ The particle system was built using:
 * Tiles can be created, and maps can be loaded from HD using a translation unit (that converts ASCII characters to tiles)
 * Player can move around using the arrow keys. Camera will focus on the player at all times
 
+---
+
 [Added sprites]
 
 ![Image](progress/screen02.png)
+
+---
 
 [Stats, enemies and attacks]
 

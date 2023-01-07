@@ -21,7 +21,7 @@ def render_progress_bar(screen, pos, size, out_color, bg_color, bar_color, font,
         pygame.draw.rect(screen, bar_color, (pos[0], pos[1], d, size[1]), 0)
 
         if (font != None):
-            center_text_xy(screen, (pos[0] + size[0] / 2, pos[1] + size[1] / 2), font, f"{pre_text}{value}/{max_value}", text_color, size[1] - 8)
+            center_text_xy(screen, (pos[0] + size[0] / 2, pos[1] + size[1] / 2), font, f"{pre_text}{int(value)}/{int(max_value)}", text_color, size[1] - 8)
 
         if (out_color != None) and (outline_width != None):
             pygame.draw.rect(screen, out_color, (pos[0], pos[1], size[0], size[1]), outline_width)

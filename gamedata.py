@@ -1,17 +1,21 @@
 import pygame
+import sys
+import math
+
 from map import *
 from character import *
 from combattext import *
+from controllers import *
 
 class GameData:
     res = (1280, 720)
     tile_size = (32, 32)
     map_pos = (0, 0)
     map_size = (28 * 32, 22 * 32)
-    enemies = []
+    characters = []
     images = {}
     game_over = False
-    tracked_enemy = None
+    tracked_character = None
     combat_text = []
 
     def load_map(self, filename, tileset):
@@ -34,24 +38,54 @@ class GameData:
         else:
             print(f"Can't find image {name}!")
 
-    def set_player_archetype(self, archetype):
-        self.player = Character(archetype, (0,0), self)
+    def set_player_archetype(self, archetype, level):
+        self.player_archetype = archetype
+        self.player_level = level
 
-    def set_player_position(self, c, x, y, param):
-        self.player.position = (x, y)
+    def spawn_player(self, c, x, y, param):
+        self.player = Character(self.player_archetype, self.player_level, (x, y), 0, self)
+        self.player.controller = KeyboardController(self.player)
+        self.characters.append(self.player)
 
     def spawn_enemy(self, c, x, y, param):
-        self.enemies.append(Character(param, (x, y), self))
+        enemy = Character(param[0], param[1], (x, y), 1, self)
+        enemy.controller = AIController(enemy)
+        self.characters.append(enemy)
 
-    def get_enemy_in_position(self, x, y):
-        for enemy in self.enemies:
-            if (enemy.position == (x,y)) and (enemy.health > 0):
-                return enemy
+    def get_enemy_in_position(self, x, y, faction):
+        for character in self.characters:
+            if (self.is_hostile(character.faction,faction)):
+                if (character.position == (x,y)) and (character.health > 0):
+                    return character
         
         return None
 
-    def track_enemy(self, enemy):
-        self.tracked_enemy = enemy
+    def get_character_in_position(self, x, y):
+        for character in self.characters:
+            if (character.position == (x,y)) and (character.health > 0):
+                return character
+        
+        return None
+
+    def get_closest_enemy(self, x, y, faction):
+        closest_dist = sys.float_info.max
+        closest = None
+        for character in self.characters:
+            if (self.is_hostile(character.faction,faction)):
+                if (character.health > 0):
+                    dist = math.sqrt((character.position[0] - x)**2 + (character.position[1] - y)**2)
+                    if (dist < closest_dist):
+                        closest_dist = dist
+                        closest = character
+        
+        return closest
+
+
+    def is_hostile(self, f1, f2):
+        return f1 != f2
+
+    def track_character(self, character):
+        self.tracked_character = character
 
     def center_camera(self, pos):
         tsx = self.map_size[0] / self.tile_size[0]
@@ -72,8 +106,7 @@ class GameData:
 
     def render(self):
         self.render_map()
-        self.render_enemies()
-        self.render_player()
+        self.render_characters()
         self.render_stats()
 
         for ct in self.combat_text:
@@ -86,12 +119,9 @@ class GameData:
     def render_map(self):
         self.map_data.draw(self.map_pos, self.map_size, self.camera_pos, self.screen)
 
-    def render_player(self):
-        self.player.render(self.map_pos, self.tile_size, self.camera_pos, self.screen)
-
-    def render_enemies(self):
-        for enemy in self.enemies:
-            enemy.render(self.map_pos, self.tile_size, self.camera_pos, self.screen)
+    def render_characters(self):
+        for character in self.characters:
+            character.render()
 
     def render_stats(self):
         mx = self.map_pos[0] + self.map_size[0]
@@ -99,17 +129,17 @@ class GameData:
 
         pygame.draw.rect(self.screen, (0,0,0), rect, 0)
 
-        y = self.player.render_stats((self.map_pos[0] + self.map_size[0] + 10, self.map_pos[1] + 10), self.font, (0, 200, 200), self.screen)
+        y = self.player.render_stats((self.map_pos[0] + self.map_size[0] + 10, self.map_pos[1] + 10))
 
         y = y + 30
         y = self.render_player_actions(y)
 
-        if (self.tracked_enemy != None):
-            if (self.tracked_enemy.health <= 0):
-                self.tracked_enemy = None
+        if (self.tracked_character != None):
+            if (self.tracked_character.health <= 0):
+                self.tracked_character = None
             else:
                 y = y + 30
-                y = self.tracked_enemy.render_stats((self.map_pos[0] + self.map_size[0] + 10, y), self.font, (255, 0, 0), self.screen)
+                y = self.tracked_character.render_stats((self.map_pos[0] + self.map_size[0] + 10, y))
 
     def render_player_actions(self, y):
         # Write player actions (instructions)
@@ -117,43 +147,13 @@ class GameData:
 
         return y + 25
 
-    def handle_keypress(self, key):
-        if (self.game_over):
-            return False
+    def update_characters(self):
+        for character in self.characters:
+            if (character.health >= 0):
+                character.update()
 
-        if (key == pygame.K_r):
-            tile = self.map_data.get_tile(self.player.position[0], self.player.position[1])
-            if (tile.need_stamina):
-                self.player.modify_stamina(-tile.stamina_cost)
-            return True
-        if (key == pygame.K_RIGHT):
-            return self.player.move(self.map_data, 1, 0)
-        if (key == pygame.K_LEFT):
-            return self.player.move(self.map_data, -1, 0)
-        if (key == pygame.K_UP):
-            return self.player.move(self.map_data, 0, -1)
-        if (key == pygame.K_DOWN):
-            return self.player.move(self.map_data, 0, 1)
-
-        return False
-
-    def update_player(self):
-        # Check if player runs out of stamina in a place where he needs stamina - like drowning
-        if (self.player.stamina <= 0):
-            tile = self.map_data.get_tile(self.player.position[0], self.player.position[1])
-            if (tile.need_stamina):
-                # Player takes damage
-                self.player.modify_health(-10)
-
-        # Check if player died
         if (self.player.health <= 0):
             self.game_over = True
-        else:
-            # Update stamina, etc
-            self.player.update()
-
-    def update_enemies(self):
-        pass
 
     def spawn_combat_text(self, tile_pos, color, text, size, life = 1, total_delta = 40):
         pos = self.convert_tile_pos_to_pixel(tile_pos)

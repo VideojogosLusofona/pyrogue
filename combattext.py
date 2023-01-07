@@ -11,6 +11,7 @@ class CombatText:
         self.inc_y = total_delta / self.life
 
     def render(self, screen):
+        center_text_x(screen, (self.position[0] + 1, self.position[1] + 1), self.font, self.text, (0, 0, 0), self.size)
         center_text_x(screen, self.position, self.font, self.text, self.color, self.size)
 
     def update(self, time_elapsed):

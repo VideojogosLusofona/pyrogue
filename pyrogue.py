@@ -9,7 +9,7 @@ def main():
     GAMEDATA.init_pygame()
     GAMEDATA.init_assets()
 
-    GAMEDATA.set_player_archetype(ARCHETYPES["PlayerWarrior"])
+    GAMEDATA.set_player_archetype(ARCHETYPES["PlayerWarrior"], 1)
 
     wall_tile = MapTyle("images/wall.png", True)
     grass_tile = MapTyle("images/grass.png", False, stamina_cost = 1)
@@ -22,8 +22,9 @@ def main():
         'T' : { "tile" : tree_tile },
         '.' : { "tile" : grass_tile },
         'w' : { "tile" : water_tile },
-        '@' : { "tile" : grass_tile, "func" : GAMEDATA.set_player_position },
-        'B' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : ARCHETYPES["Blob"] },
+        '@' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_player },
+        'b' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : (ARCHETYPES["Blob"], 1) },
+        'B' : { "tile" : grass_tile, "func" : GAMEDATA.spawn_enemy, "func_param" : (ARCHETYPES["Blob"], 5) },
         ' ' : { "tile" : empty_tile },
         'default' : { "tile" : empty_tile }
     }
@@ -42,11 +43,12 @@ def main():
             elif (event.type == pygame.KEYDOWN):
                 # Only handle one action per frame - we might miss actions
                 if (not player_action):
-                    player_action = GAMEDATA.handle_keypress(event.key)
+                    ctrl = GAMEDATA.player.controller
+                    if ctrl != None:
+                        player_action = ctrl.handle_keypress(event.key)
 
         if (player_action):
-            GAMEDATA.update_player()
-            GAMEDATA.update_enemies()
+            GAMEDATA.update_characters()
 
         GAMEDATA.center_camera(GAMEDATA.player.position)
 
