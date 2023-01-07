@@ -112,4 +112,5 @@ The text are made available through the [CC BY-NC-SA 4.0] license.
 [Introduce Vector2 class]:https://github.com/VideojogosLusofona/pyrogue/tree/df67cf174643ec7200b970c22d365ea7d2b2443b
 [Simple AI introduced]:https://github.com/VideojogosLusofona/pyrogue/tree/93e39a6564b405ae7a537e8be6fcbeebe43266ac
 [Improved AI system]:https://github.com/VideojogosLusofona/pyrogue/tree/48aa2f7c7d1c01556a355aff0eecfc9e315f9b3c
+[Ability system]:https://github.com/VideojogosLusofona/pyrogue/tree/838fc8ef094d3896639d6de0d6ffb018641e27bd
 [Angel]:https://opengameart.org/users/angel
